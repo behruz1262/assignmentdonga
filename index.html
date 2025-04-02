@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behruz's Assignment Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pink: #ff1493;
+            --secondary-pink: #ff69b4;
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --text-light: #ffffff;
+            --text-dim: #cccccc;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,20,147,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255,105,180,0.1) 0%, transparent 50%);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-pink), var(--secondary-pink));
+            color: #000;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 800;
+            letter-spacing: 1px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .student-info {
+            background-color: var(--card-bg);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-top: 3px solid var(--primary-pink);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .student-info h2 {
+            width: 100%;
+            color: var(--primary-pink);
+            margin-top: 0;
+            font-size: 1.8em;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+        
+        .info-item {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px 0;
+        }
+        
+        .info-item strong {
+            color: var(--secondary-pink);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+        
+        .assignments {
+            margin: 40px 0;
+        }
+        
+        .assignments h2 {
+            color: var(--primary-pink);
+            font-size: 2em;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .assignments h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-pink);
+        }
+        
+        .assignment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .assignment-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        
+        .assignment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.2);
+        }
+        
+        .assignment-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-pink), var(--secondary-pink));
+        }
+        
+        .assignment-card h3 {
+            color: var(--secondary-pink);
+            margin-top: 0;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .assignment-card h3 i {
+            margin-right: 10px;
+            color: var(--primary-pink);
+        }
+        
+        .assignment-card p {
+            color: var(--text-dim);
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        
+        .upload-section {
+            background-color: var(--card-bg);
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-top: 3px solid var(--secondary-pink);
+        }
+        
+        .upload-section h2 {
+            color: var(--primary-pink);
+            margin-top: 0;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .upload-section h2 i {
+            margin-right: 15px;
+        }
+        
+        #assignment-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            #assignment-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            color: var(--text-light);
+            font-size: 1em;
+            transition: border 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-pink);
+        }
+        
+        .upload-btn {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--primary-pink), var(--secondary-pink));
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background-color: var(--darker-bg);
+            color: var(--text-dim);
+            font-size: 0.9em;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(255, 20, 147, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-pink);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-laptop-code"></i> HTML Assignment Portal</h1>
+            <p>Upload and view your HTML assignments</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="student-info">
+            <h2><i class="fas fa-user-graduate"></i> Student Information</h2>
+            <div class="info-item">
+                <strong>FULL NAME</strong>
+                <p>Yuldoshev Behruz</p>
+            </div>
+            <div class="info-item">
+                <strong>STUDENT ID</strong>
+                <p>2417724</p>
+            </div>
+            <div class="info-item">
+                <strong>UNIVERSITY</strong>
+                <p>Dong-A University</p>
+            </div>
+            <div class="info-item">
+                <strong>STATUS</strong>
+                <p>Active Student <span style="color: var(--secondary-pink);">•</span></p>
+            </div>
+        </div>
+        
+        <div class="assignments">
+            <h2><i class="fas fa-tasks"></i> My Assignments</h2>
+            
+            <div class="assignment-grid" id="assignments-list">
+                <!-- Assignments will be added here dynamically -->
+                <div class="spinner" id="loading-spinner"></div>
+            </div>
+        </div>
+        
+        <div class="upload-section">
+            <h2><i class="fas fa-cloud-upload-alt"></i> Upload New Assignment</h2>
+            <form id="assignment-form">
+                <div class="form-group">
+                    <label for="assignment-title">Assignment Title</label>
+                    <input type="text" id="assignment-title" required placeholder="e.g., Introduction to HTML">
+                </div>
+                
+                <div class="form-group">
+                    <label for="course-name">Course Name</label>
+                    <input type="text" id="course-name" required placeholder="e.g., Web Development">
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignment-file">Select HTML File</label>
+                    <input type="file" id="assignment-file" required accept=".html,.htm">
+                </div>
+                
+                <button type="submit" class="upload-btn">
+                    <i class="fas fa-upload"></i> Upload Assignment
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Yuldoshev Behruz - Dong-A University</p>
+    </footer>
+    
+    <script>
+        // This object will store our assignments in memory
+        // In a real app, you would save this to a database
+        let assignments = {};
+        let nextId = 1;
+        
+        // Load assignments from localStorage if available
+        function loadAssignments() {
+            document.getElementById('loading-spinner').style.display = 'block';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                const saved = localStorage.getItem('assignments');
+                if (saved) {
+                    assignments = JSON.parse(saved);
+                    nextId = Math.max(...Object.keys(assignments).map(Number), 0) + 1;
+                    renderAssignments();
+                }
+                document.getElementById('loading-spinner').style.display = 'none';
+            }, 800);
+        }
+        
+        // Save assignments to localStorage
+        function saveAssignments() {
+            localStorage.setItem('assignments', JSON.stringify(assignments));
+        }
+        
+        // Display all assignments
+        function renderAssignments() {
+            const container = document.getElementById('assignments-list');
+            container.innerHTML = '';
+            
+            if (Object.keys(assignments).length === 0) {
+                container.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-dim)">No assignments uploaded yet</p>';
+                return;
+            }
+            
+            // Sort assignments by ID (newest first)
+            const sortedIds = Object.keys(assignments).sort((a, b) => b - a);
+            
+            sortedIds.forEach(id => {
+                const assignment = assignments[id];
+                const card = document.createElement('div');
+                card.className = 'assignment-card';
+                card.onclick = () => viewAssignment(id);
+                card.innerHTML = `
+                    <h3><i class="fas fa-file-code"></i> ${assignment.title}</h3>
+                    <p><strong>Course:</strong> ${assignment.course}</p>
+                    <p><strong>Uploaded:</strong> ${assignment.date}</p>
+                    <p><strong>File:</strong> ${assignment.filename}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // View assignment in new tab
+        function viewAssignment(id) {
+            const assignment = assignments[id];
+            if (!assignment) return;
+            
+            // Create a new window with the HTML content
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(assignment.content);
+            newWindow.document.close();
+        }
+        
+        // Handle form submission
+        document.getElementById('assignment-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('assignment-title').value.trim();
+            const course = document.getElementById('course-name').value.trim();
+            const fileInput = document.getElementById('assignment-file');
+            
+            if (!title || !course || !fileInput.files[0]) {
+                alert('Please fill all fields and select a file!');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            if (!file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
+                alert('Please upload an HTML file (.html or .htm)');
+                return;
+            }
+            
+            const btn = this.querySelector('button');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            
+            // Read the file content
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Create new assignment
+                const assignment = {
+                    id: nextId++,
+                    title: title,
+                    course: course,
+                    filename: file.name,
+                    date: new Date().toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }),
+                    content: e.target.result
+                };
+                
+                assignments[assignment.id] = assignment;
+                saveAssignments();
+                renderAssignments();
+                
+                // Reset form
+                document.getElementById('assignment-form').reset();
+                btn.innerHTML = '<i class="fas fa-check"></i> Uploaded Successfully!';
+                btn.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-upload"></i> Upload Assignment';
+                    btn.style.background = 'linear-gradient(135deg, var(--primary-pink), var(--secondary-pink))';
+                    btn.disabled = false;
+                }, 3000);
+            };
+            
+            reader.readAsText(file);
+        });
+        
+        // Initialize the page
+        window.onload = loadAssignments;
+    </script>
+</body>
+</html>
